@@ -24,8 +24,8 @@ func TestNew(t *testing.T) {
 	}
 
 	farmers := []FarmerInfo{
-		{Index: 0, Address: "0xFarmer1", Endpoint: "https://f1.btnx.io:4433", Region: "us-east-1"},
-		{Index: 1, Address: "0xFarmer2", Endpoint: "https://f2.btnx.io:4433", Region: "us-west-1"},
+		{Index: 0, Address: "0xFarmer1", Endpoint: "https://f1.dbxn.io:4433", Region: "us-east-1"},
+		{Index: 1, Address: "0xFarmer2", Endpoint: "https://f2.dbxn.io:4433", Region: "us-west-1"},
 	}
 
 	key := []byte("test-encryption-key-32-bytes!!")
@@ -123,9 +123,9 @@ func TestSaveLoad(t *testing.T) {
 	}
 
 	farmers := []FarmerInfo{
-		{Index: 0, Address: "0xFarmer1", Endpoint: "https://f1.btnx.io:4433", Region: "us-east-1"},
-		{Index: 1, Address: "0xFarmer2", Endpoint: "https://f2.btnx.io:4433", Region: "us-west-1"},
-		{Index: 2, Address: "0xFarmer3", Endpoint: "https://f3.btnx.io:4433", Region: "eu-west-1"},
+		{Index: 0, Address: "0xFarmer1", Endpoint: "https://f1.dbxn.io:4433", Region: "us-east-1"},
+		{Index: 1, Address: "0xFarmer2", Endpoint: "https://f2.dbxn.io:4433", Region: "us-west-1"},
+		{Index: 2, Address: "0xFarmer3", Endpoint: "https://f3.dbxn.io:4433", Region: "eu-west-1"},
 	}
 
 	key := []byte("test-key-32-bytes-long-padding!!")
@@ -572,12 +572,12 @@ func TestManifest_CompleteWorkflow(t *testing.T) {
 
 	// Step 3: Define farmers
 	farmers := []FarmerInfo{
-		{Index: 0, Address: "0xF0", Endpoint: "https://f0.btnx.io:4433", Region: "us-east-1"},
-		{Index: 1, Address: "0xF1", Endpoint: "https://f1.btnx.io:4433", Region: "us-west-1"},
-		{Index: 2, Address: "0xF2", Endpoint: "https://f2.btnx.io:4433", Region: "eu-west-1"},
-		{Index: 3, Address: "0xF3", Endpoint: "https://f3.btnx.io:4433", Region: "ap-south-1"},
-		{Index: 4, Address: "0xF4", Endpoint: "https://f4.btnx.io:4433", Region: "us-east-2"},
-		{Index: 5, Address: "0xF5", Endpoint: "https://f5.btnx.io:4433", Region: "eu-central-1"},
+		{Index: 0, Address: "0xF0", Endpoint: "https://f0.dbxn.io:4433", Region: "us-east-1"},
+		{Index: 1, Address: "0xF1", Endpoint: "https://f1.dbxn.io:4433", Region: "us-west-1"},
+		{Index: 2, Address: "0xF2", Endpoint: "https://f2.dbxn.io:4433", Region: "eu-west-1"},
+		{Index: 3, Address: "0xF3", Endpoint: "https://f3.dbxn.io:4433", Region: "ap-south-1"},
+		{Index: 4, Address: "0xF4", Endpoint: "https://f4.dbxn.io:4433", Region: "us-east-2"},
+		{Index: 5, Address: "0xF5", Endpoint: "https://f5.dbxn.io:4433", Region: "eu-central-1"},
 	}
 
 	// Step 4: Create manifest

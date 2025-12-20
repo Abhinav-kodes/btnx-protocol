@@ -1,4 +1,4 @@
-module github.com/Abhinav-kodes/btnx-protocol
+module github.com/Abhinav-kodes/dbxn
 
 go 1.24.0
 

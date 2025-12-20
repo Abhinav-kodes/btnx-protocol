@@ -49,7 +49,7 @@ type ShardMeta struct {
 type FarmerInfo struct {
     Index    int    `json:"index"`    // farmer index (0-5)
     Address  string `json:"address"`  // farmer wallet address
-    Endpoint string `json:"endpoint"` // HTTP endpoint (e.g., "https://farmer1.btnx.io:4433")
+    Endpoint string `json:"endpoint"` // HTTP endpoint (e.g., "https://farmer1.dbxn.io:4433")
     Region   string `json:"region"`   // geographic region (e.g., "us-east-1")
 }
 

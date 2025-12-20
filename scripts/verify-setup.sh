@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "🔍 Verifying BTNX Protocol setup"
+echo "🔍 Verifying DBXN Protocol setup"
 echo "================================"
 echo ""
 
@@ -89,4 +89,4 @@ fi
 # -------------------------------
 
 echo ""
-echo "🎉 BTNX setup verified successfully"
+echo "🎉 DBXN setup verified successfully"

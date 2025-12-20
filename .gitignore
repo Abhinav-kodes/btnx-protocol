@@ -25,5 +25,5 @@ foundry.lock
 # Runtime data
 data/
 chunks/
-.btnx/
+
 *.log

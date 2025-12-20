@@ -1,6 +1,5 @@
-# BTNX Protocol
-
-Decentralized Content Delivery Network with probabilistic micropayments.
+# DBNX
+Decentralized Bandwidth Exchange Network
 
 ## Features
 - 🔐 End-to-end encryption (XChaCha20-Poly1305)
@@ -12,7 +11,7 @@ Decentralized Content Delivery Network with probabilistic micropayments.
 
 
 ## Status
-🚧 **MVP in Development** - Phase 0 (Setup)
+🚧 **MVP in Development** - Phase 1
 
 ## License
 MIT

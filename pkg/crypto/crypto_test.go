@@ -24,7 +24,7 @@ func TestGenerateKey(t *testing.T) {
 
 func TestEncryptDecrypt_Basic(t *testing.T) {
 	key, _ := GenerateKey()
-	plaintext := []byte("Hello, BTNX Protocol! This is a secret message.")
+	plaintext := []byte("Hello, DBXN Protocol! This is a secret message.")
 
 	ciphertext, err := EncryptChunk(plaintext, key)
 	if err != nil {
