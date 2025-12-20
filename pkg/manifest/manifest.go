@@ -18,16 +18,39 @@ type Manifest struct {
 	OriginalFileHash string      `json:"original_file_hash"`	// SHA256 hash of original file
 	ChunkSize        int         `json:"chunk_size"`			// size of each chunk in bytes
 	ChunkCount       int         `json:"chunk_count"`			// total number of chunks
+
+	DataShards       int          `json:"data_shards"`   // 4
+    ParityShards     int          `json:"parity_shards"` // 2
+    TotalShards      int          `json:"total_shards"`  // 6
 	Chunks           []ChunkMeta `json:"chunks"`  				// metadata for each chunk
+	Shards           []ShardMeta  `json:"shards"`				// metadata for each shard
+	Farmers          []FarmerInfo `json:"farmers"`				// list of farmers storing the chunks
 	EncryptionKey    string      `json:"encryption_key"`		// hex-encoded encryption key for chunks
 	CreatedAt        time.Time   `json:"created_at"`			// timestamp of manifest creation
 	PublisherAddress string      `json:"publisher_address"`		// address of the publisher
 }
 
+// ChunkMeta represents metadata for a file chunk
 type ChunkMeta struct {
 	Index int    `json:"index"` // chunk index
 	Hash  string `json:"hash"`  // SHA256 of plaintext chunk
 	Size  int    `json:"size"`  // size of chunk in bytes
+}
+
+// ShardMeta represents metadata for an erasure-coded shard
+type ShardMeta struct {
+    ChunkIndex   int    `json:"chunk_index"`   // which chunk (0-99)
+    ShardIndex   int    `json:"shard_index"`   // which shard (0-5)
+    Hash         string `json:"hash"`          // SHA256 of shard
+    Size         int    `json:"size"`          // shard size in bytes
+    FarmerIndex  int    `json:"farmer_index"`  // which farmer stores this
+}
+
+type FarmerInfo struct {
+    Index    int    `json:"index"`    // farmer index (0-5)
+    Address  string `json:"address"`  // farmer wallet address
+    Endpoint string `json:"endpoint"` // HTTP endpoint (e.g., "https://farmer1.btnx.io:4433")
+    Region   string `json:"region"`   // geographic region (e.g., "us-east-1")
 }
 
 // New creates a new manifest
@@ -36,6 +59,8 @@ func New(
 	fileSize int64,
 	originalHash string,
 	chunks []ChunkMeta,
+	shards []ShardMeta,
+    farmers []FarmerInfo, 
 	encKey []byte,
 	publisher string,
 ) *Manifest {
@@ -47,7 +72,12 @@ func New(
 		OriginalFileHash: originalHash,
 		ChunkSize:        1024 * 1024, // 1MB
 		ChunkCount:       len(chunks),
+		DataShards:       4,
+        ParityShards:     2,
+        TotalShards:      6,
 		Chunks:           chunks,
+		Shards:           shards,
+		Farmers:          farmers,
 		EncryptionKey:    hex.EncodeToString(encKey),
 		CreatedAt:        time.Now(),
 		PublisherAddress: publisher,
@@ -107,6 +137,43 @@ func (m *Manifest) GetChunkHash(index int) string {
 		}
 	}
 	return ""
+}
+
+// GetShardsForChunk returns all shards metadata for a given chunk index
+func (m *Manifest) GetShardsForChunk(chunkIndex int) []ShardMeta {
+    var shards []ShardMeta
+    for _, shard := range m.Shards {
+        if shard.ChunkIndex == chunkIndex {
+            shards = append(shards, shard)
+        }
+    }
+    return shards
+}
+
+// GetFarmerForShard returns the FarmerInfo for a given shard
+func (m *Manifest) GetFarmerForShard(shard ShardMeta) *FarmerInfo {
+    if shard.FarmerIndex >= 0 && shard.FarmerIndex < len(m.Farmers) {
+        return &m.Farmers[shard.FarmerIndex]
+    }
+    return nil
+}
+
+// GetFarmersForChunk returns unique farmers storing shards for a given chunk index
+func (m *Manifest) GetFarmersForChunk(chunkIndex int) []FarmerInfo {
+    shards := m.GetShardsForChunk(chunkIndex)
+    farmerMap := make(map[int]bool)
+    var farmers []FarmerInfo
+
+    for _, shard := range shards {
+        if !farmerMap[shard.FarmerIndex] {
+            farmerMap[shard.FarmerIndex] = true
+            if farmer := m.GetFarmerForShard(shard); farmer != nil {
+                farmers = append(farmers, *farmer)
+            }
+        }
+    }
+
+    return farmers
 }
 
 // GetEncryptionKey returns the encryption key as bytes

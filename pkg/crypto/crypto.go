@@ -39,11 +39,11 @@ func EncryptChunk(plaintext []byte, key []byte) ([]byte, error) {
 	// Generate random nonce
 	nonce := make([]byte, aead.NonceSize())    // 24 bytes (192 bits) for XChaCha20
 	if _, err := rand.Read(nonce); err != nil {
-		return nil, fmt.Errorf("failed to generate nonc e: %w", err)
+		return nil, fmt.Errorf("failed to generate nonce: %w", err)
 	}
 
 	// Encrypt: output = nonce + ciphertext + tag
-	// Seal prepends nonce and appends tag automatically
+	// We pass nonce as dst so output = nonce || ciphertext || tag
 	ciphertext := aead.Seal(nonce, nonce, plaintext, nil) // seal(dst, nonce, plaintext, additionalData) (output = nonce || ciphertext || tag) where nonce is used for encryption/decryption
 
 	return ciphertext, nil
